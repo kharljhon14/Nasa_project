@@ -1,4 +1,4 @@
-const { getAllLaunches, addNewLaunch } = require("../../models/launches.model");
+const { getAllLaunches, addNewLaunch, existWithLaunchId, abortLaunchById } = require("../../models/launches.model");
 
 function httpgetAllLaunches(req, res) {
    return res.status(200).json(getAllLaunches());
@@ -21,4 +21,14 @@ function httpaddNewLaunch(req, res) {
    return res.status(201).json(launch);
 }
 
-module.exports = { httpgetAllLaunches, httpaddNewLaunch };
+function httpAbortLaunch(req, res) {
+   const launchId = req.params.id;
+
+   if (!existWithLaunchId(launchId)) {
+      return res.status(404).json({ error: "Launch not found" });
+   }
+
+   return res.status(200).json(aborted);
+}
+
+module.exports = { httpgetAllLaunches, httpaddNewLaunch, httpAbortLaunch };
