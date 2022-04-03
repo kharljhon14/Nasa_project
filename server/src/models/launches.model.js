@@ -28,14 +28,20 @@ function addNewLaunch(launch) {
    launches.set(
       launch.flightNumber,
       Object.assign(launch, {
+         flightNumber: latestFlightNumber,
          success: true,
          upcoming: true,
          customer: ["Zero to Mastery", "NASA"],
-         flightNumber: latestFlightNumber,
       })
    );
 }
 
-function abortLaunchById(launchId) {}
+function abortLaunchById(launchId) {
+   const aborted = launches.get(launchId);
+
+   aborted.upcoming = false;
+   aborted.success = false;
+   return aborted;
+}
 
 module.exports = { getAllLaunches, addNewLaunch, existLaunchWithId, abortLaunchById };
